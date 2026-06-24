@@ -61,7 +61,7 @@ export const useQueue = () => {
     try {
       const res = await fetch('http://localhost:5000/api/queue/call-next', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-email': 'admin@queuecure.com' }
+        headers: { 'Content-Type': 'application/json', 'x-user-email': 'admin@claritiq.com' }
       });
       if (!res.ok) {
         const data = await res.json();
@@ -76,7 +76,7 @@ export const useQueue = () => {
     try {
       const res = await fetch('http://localhost:5000/api/queue/undo-last-call', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-user-email': 'admin@queuecure.com' }
+        headers: { 'Content-Type': 'application/json', 'x-user-email': 'admin@claritiq.com' }
       });
       if (!res.ok) {
         const data = await res.json();

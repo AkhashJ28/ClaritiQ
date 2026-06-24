@@ -5,11 +5,11 @@ const router = Router();
 router.post('/login', (req: Request, res: Response): any => {
   const { email, password } = req.body;
 
-  if (email === 'admin@queuecure.com' && password === 'queuecure123') {
+  if (email === 'admin@claritiq.com' && password === 'claritiq123') {
     return res.status(200).json({
       token: 'fake-jwt-token-for-hackathon',
       user: {
-        email: 'admin@queuecure.com',
+        email: 'admin@claritiq.com',
         role: 'Admin',
         name: 'Priya Sharma'
       }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { User, Clock, MapPin, RefreshCw, CheckCircle2, AlertTriangle } from 'lucide-react';
+import logoUrl from '../assets/logo.png';
 
 export const PatientTracking = () => {
   const { tokenId } = useParams();
@@ -98,17 +99,15 @@ export const PatientTracking = () => {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 flex flex-col">
       {/* Header */}
       <header className="bg-white p-5 shadow-sm flex items-center justify-between sticky top-0 z-10 border-b border-slate-100">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+        <div className="flex items-center gap-4">
+          <div className="w-20 h-20 bg-white shadow-sm border border-slate-100 rounded-2xl flex items-center justify-center overflow-hidden">
+            <img src={logoUrl} alt="ClaritiQ Logo" className="w-full h-full object-contain scale-[1.8]" />
           </div>
-          <span className="text-lg font-bold text-indigo-600">QueueCure</span>
+          <span className="text-3xl font-bold text-indigo-600">ClaritiQ</span>
         </div>
         <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
           <MapPin size={14} className="text-slate-400" />
-          QueueCure Clinic
+          ClaritiQ Clinic
         </div>
       </header>
 
@@ -200,7 +199,7 @@ export const PatientTracking = () => {
 
       {/* Footer */}
       <footer className="p-4 text-center text-xs text-slate-400">
-        Powered by <span className="font-semibold text-indigo-500">QueueCure</span>
+        Powered by <span className="font-semibold text-indigo-500">ClaritiQ</span>
       </footer>
     </div>
   );

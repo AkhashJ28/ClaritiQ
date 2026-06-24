@@ -23,6 +23,11 @@ export const io = new Server(server, {
 app.use(cors());
 app.use(express.json());
 
+// Health check / root route
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', service: 'ClaritiQ API', timestamp: new Date().toISOString() });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api', apiRoutes);
 

@@ -9,7 +9,7 @@ export interface ISystemSettings extends Document<string> {
 const SystemSettingsSchema: Schema = new Schema(
   {
     _id: { type: String, default: 'global_settings' },
-    clinicName: { type: String, default: 'QueueCure Clinic' },
+    clinicName: { type: String, default: 'ClaritiQ Clinic' },
     defaultConsultationTime: { type: Number, default: 8 }
   },
   { timestamps: true }

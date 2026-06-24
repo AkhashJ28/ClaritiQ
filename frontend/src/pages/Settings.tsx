@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Save } from 'lucide-react';
 
 export const Settings = () => {
-  const [clinicName, setClinicName] = useState('QueueCure Clinic');
+  const [clinicName, setClinicName] = useState('ClaritiQ Clinic');
   const [defaultWaitTime, setDefaultWaitTime] = useState(8);
 
   const handleSave = (e: React.FormEvent) => {

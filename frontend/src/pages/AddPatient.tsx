@@ -24,12 +24,19 @@ export const AddPatient = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    if (mobileNumber && !/^\d{10}$/.test(mobileNumber)) {
+      alert('Please enter a valid 10-digit mobile number');
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch('http://localhost:5000/api/queue/patient', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-user-email': user?.email || 'admin@queuecure.com'
+          'x-user-email': user?.email || 'admin@claritiq.com'
         },
         body: JSON.stringify({ name, mobileNumber, priorityLevel })
       });
@@ -88,10 +95,15 @@ export const AddPatient = () => {
               <label className="block text-sm font-semibold text-slate-700 mb-2">Mobile Number <span className="text-slate-400 font-normal">(Optional)</span></label>
               <input
                 type="tel"
+                pattern="[0-9]{10}"
+                title="10-digit mobile number"
                 value={mobileNumber}
-                onChange={(e) => setMobileNumber(e.target.value)}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '');
+                  if (val.length <= 10) setMobileNumber(val);
+                }}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 focus:bg-white outline-none transition-all"
-                placeholder="Enter mobile number for SMS alerts"
+                placeholder="Enter 10-digit mobile number"
                 disabled={!!generatedToken || loading}
               />
             </div>

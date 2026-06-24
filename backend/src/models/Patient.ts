@@ -6,6 +6,7 @@ export interface IPatient extends Document {
   priorityLevel: 'NORMAL' | 'PRIORITY' | 'CRITICAL';
   status: 'WAITING' | 'SERVING' | 'COMPLETED' | 'NO_SHOW';
   tokenNumber: number;
+  servingStartedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +28,7 @@ const PatientSchema: Schema = new Schema(
       required: true
     },
     tokenNumber: { type: Number, required: true, unique: true },
+    servingStartedAt: { type: Date, required: false },
   },
   { timestamps: true }
 );

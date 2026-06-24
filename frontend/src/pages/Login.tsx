@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, Lock, Mail } from 'lucide-react';
+import logoUrl from '../assets/logo.png';
 
 export const Login = () => {
-  const [email, setEmail] = useState('admin@queuecure.com');
-  const [password, setPassword] = useState('queuecure123');
+  const [email, setEmail] = useState('admin@claritiq.com');
+  const [password, setPassword] = useState('claritiq123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -46,13 +47,11 @@ export const Login = () => {
         <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-indigo-300/10 rounded-full blur-3xl"></div>
 
         {/* Logo */}
-        <div className="relative z-10 flex items-center gap-3 animate-fade-in-up">
-          <div className="w-10 h-10 bg-white/15 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+        <div className="relative z-10 flex items-center gap-4 animate-fade-in-up">
+          <div className="w-20 h-20 bg-white/15 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/20 overflow-hidden">
+            <img src={logoUrl} alt="ClaritiQ Logo" className="w-full h-full object-contain scale-[1.8]" />
           </div>
-          <span className="text-xl font-bold tracking-wide">QueueCure</span>
+          <span className="text-3xl font-bold tracking-wide">ClaritiQ</span>
         </div>
 
         {/* Hero Content */}
@@ -81,21 +80,17 @@ export const Login = () => {
 
         {/* Footer */}
         <div className="relative z-10 text-sm text-indigo-200/50 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
-          Built with ❤️ for Google Solution Challenge 2025
         </div>
       </div>
 
       {/* Right Side — Login Form */}
       <div className="flex-1 flex items-center justify-center bg-slate-50 p-8">
         <div className="w-full max-w-md animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-          {/* Mobile Logo */}
-          <div className="lg:hidden flex items-center gap-3 mb-10 justify-center">
-            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+          <div className="lg:hidden flex items-center gap-4 mb-10 justify-center">
+            <div className="w-20 h-20 bg-white shadow-sm border border-slate-100 rounded-2xl flex items-center justify-center overflow-hidden">
+              <img src={logoUrl} alt="ClaritiQ Logo" className="w-full h-full object-contain scale-[1.8]" />
             </div>
-            <span className="text-xl font-bold text-slate-900 tracking-wide">QueueCure</span>
+            <span className="text-3xl font-bold text-slate-900 tracking-wide">ClaritiQ</span>
           </div>
 
           <div className="mb-8">
@@ -119,7 +114,7 @@ export const Login = () => {
                   type="email"
                   required
                   className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500 transition-all text-sm shadow-sm"
-                  placeholder="admin@queuecure.com"
+                  placeholder="admin@claritiq.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />

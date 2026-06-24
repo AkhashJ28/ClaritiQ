@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { LayoutDashboard, UserPlus, ListOrdered, FileText, ClipboardList, Settings, LogOut } from 'lucide-react';
+import logoUrl from '../../assets/logo.png';
 
 export const DashboardLayout = () => {
   const { user, logout } = useAuth();
@@ -24,13 +25,11 @@ export const DashboardLayout = () => {
     <div className="flex h-screen bg-bg-light text-slate-800 overflow-hidden">
       {/* Sidebar */}
       <aside className="w-[260px] bg-sidebar text-slate-300 flex flex-col flex-shrink-0 shadow-xl z-20 relative">
-        <div className="h-20 flex items-center px-6 gap-3 border-b border-white/5">
-          <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
-            <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path d="M12 4v16m8-8H4" strokeLinecap="round" strokeLinejoin="round"></path>
-            </svg>
+        <div className="py-6 flex items-center px-6 gap-4 border-b border-white/5">
+          <div className="w-20 h-20 flex-shrink-0 bg-white/10 rounded-2xl flex items-center justify-center overflow-hidden border border-white/10">
+            <img src={logoUrl} alt="ClaritiQ Logo" className="w-full h-full object-contain scale-[1.8]" />
           </div>
-          <span className="text-xl font-bold text-white tracking-wide">QueueCure</span>
+          <span className="text-3xl font-bold text-white tracking-wide">ClaritiQ</span>
         </div>
 
         <nav className="flex-1 overflow-y-auto py-6 px-3 space-y-1 custom-scrollbar">

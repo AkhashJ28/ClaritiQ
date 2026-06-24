@@ -6,10 +6,12 @@ import { io } from '../index';
 import { Types } from 'mongoose';
 
 export class QueueEngine {
+  static activeTimeouts = new Map<number, NodeJS.Timeout>();
+
   // Wait time engine is inside here or static
   static async getAverageWaitTime(): Promise<number> {
     const logs = await ConsultationLog.find().sort({ createdAt: -1 }).limit(10);
-    if (logs.length === 0) return 8; // Default 8 mins
+    if (logs.length === 0) return 10; // Default 10 mins
     const total = logs.reduce((acc, log) => acc + log.durationMinutes, 0);
     return Math.round(total / logs.length);
   }
@@ -45,8 +47,8 @@ export class QueueEngine {
     }
 
     // Atomic increment
-    const nextToken = queue.currentTokenNumber + 1;
-    await Queue.findByIdAndUpdate('global_queue', { $inc: { currentTokenNumber: 1 } });
+    const updatedQueue = await Queue.findByIdAndUpdate('global_queue', { $inc: { currentTokenNumber: 1 } }, { new: true });
+    const nextToken = updatedQueue!.currentTokenNumber;
 
     const patient = await Patient.create({
       name,
@@ -75,34 +77,60 @@ export class QueueEngine {
     const priorityMap: any = { 'CRITICAL': 3, 'PRIORITY': 2, 'NORMAL': 1 };
     patients.sort((a, b) => priorityMap[b.priorityLevel] - priorityMap[a.priorityLevel]);
 
-    const nextPatient = patients[0];
-    if (!nextPatient) throw new Error('Queue is empty');
+    const targetPatient = patients[0];
+    if (!targetPatient) throw new Error('Queue is empty');
+
+    const nextPatient = await Patient.findOneAndUpdate(
+      { _id: targetPatient._id, status: 'WAITING' },
+      { status: 'SERVING', servingStartedAt: new Date() },
+      { new: true }
+    );
+
+    if (!nextPatient) throw new Error('Queue is empty or patient already called');
 
     const globalQueue = await Queue.findById('global_queue');
 
     // Update the currently serving patient to COMPLETED if any
     if (globalQueue?.servingTokenNumber) {
       const prev = await Patient.findOne({ tokenNumber: globalQueue.servingTokenNumber });
-      if (prev) {
+      if (prev && prev.status === 'SERVING') {
         prev.status = 'COMPLETED';
         await prev.save();
         
-        // Log consultation time (mocked for demo)
-        const duration = Math.floor(Math.random() * 5) + 5; // 5 to 10 mins
+        // Clear any existing auto-complete timeout for the previous patient
+        if (this.activeTimeouts.has(prev.tokenNumber)) {
+          clearTimeout(this.activeTimeouts.get(prev.tokenNumber));
+          this.activeTimeouts.delete(prev.tokenNumber);
+        }
+        
+        let duration = 10; // Default fallback
+        if (prev.servingStartedAt) {
+          duration = Math.round((Date.now() - prev.servingStartedAt.getTime()) / 60000);
+          if (duration < 1) duration = 1; // Minimum 1 minute
+        }
+
         await ConsultationLog.create({
           tokenNumber: prev.tokenNumber,
           patientId: prev._id,
-          startTime: new Date(Date.now() - duration * 60000),
+          startTime: prev.servingStartedAt || new Date(Date.now() - duration * 60000),
           endTime: new Date(),
           durationMinutes: duration
         });
       }
     }
 
-    nextPatient.status = 'SERVING';
-    await nextPatient.save();
-
     await Queue.findByIdAndUpdate('global_queue', { servingTokenNumber: nextPatient.tokenNumber });
+
+    // Check if this is the last person in the queue (no more WAITING patients)
+    const remainingWaiting = await Patient.countDocuments({ status: 'WAITING' });
+    if (remainingWaiting === 0) {
+      // This is the last person — set auto-completion timeout using estimated average wait time
+      const avgWait = await this.getAverageWaitTime();
+      const timeout = setTimeout(() => {
+        this.autoCompletePatient(nextPatient.tokenNumber, avgWait).catch(console.error);
+      }, avgWait * 60000);
+      this.activeTimeouts.set(nextPatient.tokenNumber, timeout);
+    }
 
     await AuditLog.create({
       action: 'CALL_NEXT',
@@ -169,5 +197,39 @@ export class QueueEngine {
     const state = await this.getQueueState();
     io.emit('QUEUE_UPDATED', state);
     return state;
+  }
+
+  static async autoCompletePatient(tokenNumber: number, expectedDuration: number) {
+    const globalQueue = await Queue.findById('global_queue');
+    if (globalQueue?.servingTokenNumber === tokenNumber) {
+      const patient = await Patient.findOne({ tokenNumber });
+      if (patient && patient.status === 'SERVING') {
+        patient.status = 'COMPLETED';
+        await patient.save();
+
+        await ConsultationLog.create({
+          tokenNumber: patient.tokenNumber,
+          patientId: patient._id,
+          startTime: patient.servingStartedAt || new Date(Date.now() - expectedDuration * 60000),
+          endTime: new Date(),
+          durationMinutes: expectedDuration
+        });
+        
+        await Queue.findByIdAndUpdate('global_queue', { servingTokenNumber: null });
+        
+        await AuditLog.create({
+          action: 'AUTO_COMPLETE',
+          tokenNumber: patient.tokenNumber,
+          patientId: patient._id,
+          actor: 'System',
+          details: `Token #${tokenNumber} auto-completed after ${expectedDuration} mins.`
+        });
+
+        const state = await this.getQueueState();
+        io.emit('QUEUE_UPDATED', state);
+        io.emit('CALL_NEXT', null); // clear current serving on UI
+      }
+    }
+    this.activeTimeouts.delete(tokenNumber);
   }
 }

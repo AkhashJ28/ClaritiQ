@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQueue } from '../hooks/useQueue';
+import logoUrl from '../assets/logo.png';
 
 export const WaitingRoomDisplay = () => {
   const { queueState } = useQueue();
@@ -18,13 +19,11 @@ export const WaitingRoomDisplay = () => {
     <div className="bg-brand-bg text-brand-text h-screen overflow-hidden flex flex-col selection:bg-brand-primary selection:text-white">
       {/* Header */}
       <header className="flex justify-between items-center px-10 py-6 bg-brand-surface/50 border-b border-white/10 glass-dark">
-        <div className="flex items-center gap-4 animate-fade-in-up">
-          <div className="w-10 h-10 bg-brand-primary rounded-xl flex items-center justify-center shadow-lg shadow-brand-primary/30">
-            <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
-            </svg>
+        <div className="flex items-center gap-6 animate-fade-in-up">
+          <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-white/20 overflow-hidden shadow-lg shadow-brand-primary/30">
+            <img src={logoUrl} alt="ClaritiQ Logo" className="w-full h-full object-contain scale-[1.8]" />
           </div>
-          <h1 className="text-3xl font-bold tracking-wide">QueueCure Clinic</h1>
+          <h1 className="text-4xl font-bold tracking-wide">ClaritiQ Clinic</h1>
         </div>
         <div className="text-2xl font-medium tracking-wide flex items-center gap-6 animate-fade-in-up" style={{animationDelay:'150ms'}}>
           <span>{time.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</span>
@@ -41,9 +40,9 @@ export const WaitingRoomDisplay = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/20 via-brand-primary/5 to-transparent pointer-events-none"></div>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-          <div className="z-10 flex flex-col items-center">
-            <h2 className="text-4xl font-semibold text-brand-text-muted mb-8 tracking-[0.3em] uppercase">Now Serving</h2>
-            <div className="text-[14rem] font-extrabold leading-none mb-12 text-white animate-token-pulse" style={{textShadow: '0 0 80px rgba(59,130,246,0.4), 0 0 160px rgba(59,130,246,0.1)'}}>
+          <div className="z-10 flex flex-col items-center flex-shrink min-h-0 p-4">
+            <h2 className="text-3xl md:text-4xl font-semibold text-brand-text-muted mb-4 md:mb-8 tracking-[0.3em] uppercase">Now Serving</h2>
+            <div className="text-[clamp(5rem,10vw,12rem)] font-extrabold leading-none mb-6 md:mb-12 text-white animate-token-pulse break-all text-center px-4" style={{textShadow: '0 0 80px rgba(59,130,246,0.4), 0 0 160px rgba(59,130,246,0.1)'}}>
               {queueState.currentToken || '--'}
             </div>
             <div className="flex items-center gap-6 bg-brand-bg/60 px-8 py-5 rounded-2xl border border-white/10 backdrop-blur-md">
@@ -95,7 +94,7 @@ export const WaitingRoomDisplay = () => {
 
       {/* Priority Alert Banner */}
       {hasCritical && (
-        <div className="px-8 pb-6 animate-fade-in-up">
+        <div className="px-8 pb-6 animate-fade-in-up flex-shrink-0">
           <div className="bg-gradient-to-r from-red-900/80 to-red-800/80 rounded-2xl p-5 flex items-center gap-6 border border-red-500/30 shadow-lg shadow-red-500/10">
             <div className="w-14 h-14 bg-red-500 rounded-full flex items-center justify-center animate-pulse flex-shrink-0">
               <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
