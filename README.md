@@ -236,6 +236,28 @@ npm install
 npm run dev
 ```
 
+## Application Routes
+
+### Receptionist Dashboard
+/
+Main dashboard for queue management.
+
+### Waiting Room Display
+/display
+Public display screen for clinic waiting areas.
+
+### Patient Tracking
+/track/:tokenId
+Mobile-friendly patient queue tracking page.
+
+## Demo Status
+
+The MVP was completed during Queue Cure '26.
+
+Deployment is currently in progress.
+
+The complete source code and application architecture are available in this repository.
+
 ### Environment Variables
 
 Create a `.env` file:
@@ -253,16 +275,11 @@ CLIENT_URL=http://localhost:5173
 Add your GitHub repository link here:
 
 ```text
-https://github.com/yourusername/claritiq
+https://github.com/AkhashJ28/ClaritiQ.git
 ```
 
 ---
 
-## Team
-
-Built for Queue Cure '26 Hackathon.
-
----
 
 ## Mission
 
