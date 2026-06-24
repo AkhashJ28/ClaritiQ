@@ -68,11 +68,11 @@ export const Login = () => {
               <span className="text-indigo-100/70">Real-time Updates</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" style={{animationDelay:'500ms'}}></div>
+              <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" style={{ animationDelay: '500ms' }}></div>
               <span className="text-indigo-100/70">QR Tracking</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse" style={{animationDelay:'1000ms'}}></div>
+              <div className="w-2 h-2 bg-sky-400 rounded-full animate-pulse" style={{ animationDelay: '1000ms' }}></div>
               <span className="text-indigo-100/70">Zero Setup</span>
             </div>
           </div>
@@ -101,7 +101,7 @@ export const Login = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
               <div className="text-red-600 text-sm bg-red-50 border border-red-100 p-3 rounded-xl flex items-center gap-2 animate-fade-in-up">
-                <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd"/></svg>
+                <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>
                 {error}
               </div>
             )}
