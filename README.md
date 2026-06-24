@@ -1,5 +1,22 @@
 # ClaritiQ
 
+![React](https://img.shields.io/badge/Frontend-React-blue)
+![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-success)
+![Socket.IO](https://img.shields.io/badge/Realtime-Socket.IO-black)
+![Hackathon](https://img.shields.io/badge/QueueCure-26-orange)
+
+## Why ClaritiQ?
+
+The core problem in clinic waiting rooms is not waiting itself.
+
+It is uncertainty.
+
+Patients repeatedly ask:
+"When will my turn come?"
+
+ClaritiQ focuses on queue transparency rather than just token generation by providing live visibility, dynamic ETA prediction, and real-time synchronization across all interfaces.
+
 ### From Waiting to Knowing.
 
 ClaritiQ is a real-time clinic queue visibility platform that replaces traditional paper token systems with a transparent digital experience.
@@ -272,13 +289,19 @@ CLIENT_URL=http://localhost:5173
 
 ### GitHub Repository
 
-Add your GitHub repository link here:
-
 ```text
 https://github.com/AkhashJ28/ClaritiQ.git
 ```
 
 ---
+
+
+## Team
+
+Akhash J
+
+Built during Queue Cure '26 Hackathon.
+
 
 
 ## Mission
